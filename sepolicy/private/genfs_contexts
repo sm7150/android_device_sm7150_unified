@@ -1,0 +1,2 @@
+# Flashlight
+genfscon sysfs /devices/virtual/camera/flash    u:object_r:sysfs_camera_writable:s0
