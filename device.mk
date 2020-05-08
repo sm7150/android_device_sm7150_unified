@@ -61,6 +61,10 @@ PRODUCT_PACKAGES += \
     fastbootd \
     init.recovery.qcom.rc
 
+# Skip Mount
+PRODUCT_COPY_FILES += \
+    build/target/product/gsi/skip_mount.cfg:$(TARGET_COPY_OUT_SYSTEM)/etc/init/config/skip_mount.cfg
+
 # Telephony
 PRODUCT_PACKAGES += \
     telephony-ext
