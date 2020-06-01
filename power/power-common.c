@@ -121,9 +121,11 @@ void set_interactive(int on)
 {
     if (!on) {
         /* Send Display OFF hint to perf HAL */
+        sysfs_write("/sys/class/sec/tsp/input/enabled", "0");
         perf_hint_enable(VENDOR_HINT_DISPLAY_OFF, 0);
     } else {
         /* Send Display ON hint to perf HAL */
+        sysfs_write("/sys/class/sec/tsp/input/enabled", "1");
         perf_hint_enable(VENDOR_HINT_DISPLAY_ON, 0);
     }
 
@@ -132,4 +134,14 @@ void set_interactive(int on)
     }
 
     ALOGI("Got set_interactive hint");
+}
+
+void set_feature(feature_t feature, int state) {
+    switch (feature) {
+        case POWER_FEATURE_DOUBLE_TAP_TO_WAKE:
+            sysfs_write("/sys/class/sec/tsp/cmd", state ? "aot_enable,1" : "aot_enable,0");
+            break;
+        default:
+            break;
+    }
 }

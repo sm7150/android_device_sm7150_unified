@@ -37,5 +37,8 @@ on boot
     chmod 0644 /sys/class/lcd/panel/mask_brightness
     chmod 0644 /sys/class/backlight/panel0-backlight/brightness
 
+    # Power Hal
+    chown system system /sys/class/sec/tsp/input/enabled
+
     # TSP
     chown system system /sys/class/sec/tsp/cmd
