@@ -30,6 +30,10 @@ on init
     # Flashlight
     chown system system /sys/class/camera/flash/rear_flash
 
+    # Vibrator
+    chown system system /sys/class/timed_output/vibrator/enable
+    chown system system /sys/class/timed_output/vibrator/intensity
+
 on boot
     # Fingerprint
     chown system system /sys/class/lcd/panel/mask_brightness
