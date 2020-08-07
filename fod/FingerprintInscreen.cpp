@@ -29,6 +29,7 @@
 #define TSP_CMD_PATH "/sys/class/sec/tsp/cmd"
 #define FP_GREEN_CIRCLE "/sys/class/lcd/panel/fp_green_circle"
 #define MASK_BRIGHTNESS_PATH "/sys/class/lcd/panel/mask_brightness"
+#define FOD_DIMMING_PATH "/sys/class/lcd/panel/fod_dimming"
 
 #define SEM_FINGER_STATE 22
 #define SEM_PARAM_PRESSED 2
@@ -107,12 +108,16 @@ Return<void> FingerprintInscreen::onRelease() {
 }
 
 Return<void> FingerprintInscreen::onShowFODView() {
+    set(FOD_DIMMING_PATH, "1");
+    set(TSP_CMD_PATH, "fod_enable,1,1,0");
     return Void();
 }
 
 Return<void> FingerprintInscreen::onHideFODView() {
     set(FP_GREEN_CIRCLE, "0");
-    set(TSP_CMD_PATH, "fod_enable,0");
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    set(FOD_DIMMING_PATH, "0");
     return Void();
 }
 
