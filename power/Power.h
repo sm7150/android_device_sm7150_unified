@@ -1,54 +1,66 @@
 /*
- * Copyright (c) 2019, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2018 The Android Open Source Project
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of The Linux Foundation nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
- * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
- * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
- * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
- * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-#ifndef ANDROID_HARDWARE_POWER_V1_2_POWER_H
-#define ANDROID_HARDWARE_POWER_V1_2_POWER_H
+#ifndef POWER_LIBPERFMGR_POWER_H_
+#define POWER_LIBPERFMGR_POWER_H_
 
-#include <android/hardware/power/1.2/IPower.h>
+#include <atomic>
+#include <memory>
+#include <thread>
+
+#include <android/hardware/power/1.3/IPower.h>
 #include <hidl/MQDescriptor.h>
 #include <hidl/Status.h>
-#include <hardware/power.h>
+#include <perfmgr/HintManager.h>
+
+#include "InteractionHandler.h"
+
+#include <vendor/lineage/power/1.0/ILineagePower.h>
 
 namespace android {
 namespace hardware {
 namespace power {
-namespace V1_2 {
+namespace V1_3 {
 namespace implementation {
 
-using ::android::hardware::power::V1_0::Feature;
-using PowerHint_1_0 = ::android::hardware::power::V1_0::PowerHint;
-using PowerHint_1_2 = ::android::hardware::power::V1_2::PowerHint;
-using ::android::hardware::power::V1_2::IPower;
+using ::InteractionHandler;
 using ::android::hardware::Return;
 using ::android::hardware::Void;
+using ::android::hardware::power::V1_0::Feature;
+using ::android::hardware::power::V1_3::IPower;
+using PowerHint_1_0 = ::android::hardware::power::V1_0::PowerHint;
+using PowerHint_1_2 = ::android::hardware::power::V1_2::PowerHint;
+using PowerHint_1_3 = ::android::hardware::power::V1_3::PowerHint;
+using ::android::perfmgr::HintManager;
 
-struct Power : public IPower {
+using ::vendor::lineage::power::V1_0::ILineagePower;
+using ::vendor::lineage::power::V1_0::LineageFeature;
+using ::vendor::lineage::power::V1_0::LineagePowerHint;
+
+enum PowerProfile {
+    POWER_SAVE = 0,
+    BALANCED,
+    HIGH_PERFORMANCE,
+    BIAS_POWER_SAVE,
+    BIAS_PERFORMANCE,
+    MAX
+};
+
+class Power : public IPower, public ILineagePower {
+  public:
     // Methods from ::android::hardware::power::V1_0::IPower follow.
 
     Power();
@@ -58,17 +70,44 @@ struct Power : public IPower {
     Return<void> setFeature(Feature feature, bool activate) override;
     Return<void> getPlatformLowPowerStats(getPlatformLowPowerStats_cb _hidl_cb) override;
 
-    // Methods from ::android::hardware::power::V1_1::IPower follow
+    // Methods from ::android::hardware::power::V1_1::IPower follow.
     Return<void> getSubsystemLowPowerStats(getSubsystemLowPowerStats_cb _hidl_cb) override;
     Return<void> powerHintAsync(PowerHint_1_0 hint, int32_t data) override;
-    // Methods from ::android::hardware::power::V1_2::IPower follow
+
+    // Methods from ::android::hardware::power::V1_2::IPower follow.
     Return<void> powerHintAsync_1_2(PowerHint_1_2 hint, int32_t data) override;
+
+    // Methods from ::android::hardware::power::V1_3::IPower follow.
+    Return<void> powerHintAsync_1_3(PowerHint_1_3 hint, int32_t data) override;
+
+    // Methods from ::vendor::lineage::power::V1_0::ILineagePower follow.
+    Return<int32_t> getFeature(LineageFeature feature) override;
+
+    // Methods from ::android::hidl::base::V1_0::IBase follow.
+    Return<void> debug(const hidl_handle &fd, const hidl_vec<hidl_string> &args) override;
+
+  private:
+    std::shared_ptr<HintManager> mHintManager;
+    std::unique_ptr<InteractionHandler> mInteractionHandler;
+    std::atomic<bool> mVRModeOn;
+    std::atomic<bool> mSustainedPerfModeOn;
+    std::atomic<bool> mCameraStreamingMode;
+    std::atomic<bool> mReady;
+    std::thread mInitThread;
+
+    std::atomic<bool> mDoubleTapEnabled;
+
+    int32_t mNumPerfProfiles;
+    std::atomic<PowerProfile> mCurrentPerfProfile;
+
+    Return<void> updateHint(const char *hint, bool enable);
+    Return<void> setProfile(PowerProfile profile);
 };
 
 }  // namespace implementation
-}  // namespace V1_2
+}  // namespace V1_3
 }  // namespace power
 }  // namespace hardware
 }  // namespace android
 
-#endif  // ANDROID_HARDWARE_POWER_V1_2_POWER_H
+#endif  // POWER_LIBPERFMGR_POWER_H_

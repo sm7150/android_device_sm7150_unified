@@ -34,6 +34,9 @@ on init
     chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/timed_output/vibrator/intensity
 
+on early-boot
+    mount none /system/lib64/libperfmgr.so /vendor/lib64/libperfmgr.so bind
+
 on boot
     # Fingerprint
     chown system system /sys/class/lcd/panel/mask_brightness

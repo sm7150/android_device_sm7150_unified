@@ -1,63 +1,70 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2020 The LineageOS Project
+
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := android.hardware.power@1.2-service.r5q
-LOCAL_MODULE_TAGS := optional
-LOCAL_CFLAGS += -Wno-unused-parameter -Wno-unused-variable
+LOCAL_MODULE := android.hardware.power@1.3-service.r5q
+LOCAL_MODULE_STEM := android.hardware.power@1.3-service.samsung-libperfmgr
+LOCAL_MODULE_TAGS  := optional
 
-LOCAL_MODULE_PATH := $(TARGET_OUT_PRODUCT)/vendor_overlay/$(PRODUCT_TARGET_VNDK_VERSION)/bin
+LOCAL_MODULE_PATH := $(TARGET_OUT_PRODUCT)/vendor_overlay/$(PLATFORM_VNDK_VERSION)/bin
 LOCAL_MODULE_RELATIVE_PATH := hw
-LOCAL_MODULE_STEM := vendor.samsung.hardware.miscpower@2.0-service
+
+LOCAL_SRC_FILES := \
+    service.cpp \
+    Power.cpp \
+    InteractionHandler.cpp
 
 LOCAL_REQUIRED_MODULES := \
-    android.hardware.power@1.2-service.r5q.rc
+    android.hardware.power@1.3-service.samsung-libperfmgr.rc \
+    android.hardware.power@1.3-service.samsung.xml
 
 LOCAL_SHARED_LIBRARIES := \
-    liblog \
-    libcutils \
-    libdl \
-    libxml2 \
     libbase \
     libhidlbase \
     libhidltransport \
+    liblog \
     libutils \
-    android.hardware.power@1.2
+    libcutils \
+    libperfmgr \
+    android.hardware.power@1.0 \
+    android.hardware.power@1.1 \
+    android.hardware.power@1.2 \
+    android.hardware.power@1.3
 
-LOCAL_HEADER_LIBRARIES += \
-    libutils_headers \
-    libhardware_headers
+LOCAL_STATIC_LIBRARIES := \
+    vendor.lineage.power@1.0
 
-LOCAL_SRC_FILES := \
-    power-common.c \
-    metadata-parser.c \
-    utils.c \
-    list.c \
-    hint-data.c \
-    powerhintparser.c \
-    service.cpp \
-    Power.cpp \
-    power-msmnile.c
+LOCAL_CFLAGS += -Wall -Werror
 
-LOCAL_C_INCLUDES := \
-    external/libxml2/include \
-    external/icu/icu4c/source/common
-
-ifeq ($(TARGET_USES_INTERACTION_BOOST),true)
-    LOCAL_CFLAGS += -DINTERACTION_BOOST
-endif
+LOCAL_POST_INSTALL_CMD := mkdir -p $(TARGET_OUT_PRODUCT)/vendor_overlay/$(PLATFORM_VNDK_VERSION)/lib64
+LOCAL_POST_INSTALL_CMD += ; touch $(TARGET_OUT_PRODUCT)/vendor_overlay/$(PLATFORM_VNDK_VERSION)/lib64/libperfmgr.so
 
 include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := android.hardware.power@1.2-service.r5q.rc
+LOCAL_MODULE := android.hardware.power@1.3-service.samsung-libperfmgr.rc
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
 
-LOCAL_MODULE_PATH := $(TARGET_OUT_PRODUCT)/vendor_overlay/$(PRODUCT_TARGET_VNDK_VERSION)/etc/init
-LOCAL_MODULE_STEM := vendor.samsung.hardware.miscpower@2.0-service.rc
+LOCAL_MODULE_PATH := $(TARGET_OUT_PRODUCT)/vendor_overlay/$(PLATFORM_VNDK_VERSION)/etc/init
+LOCAL_MODULE_STEM := android.hardware.power@1.0-service.rc
 
-LOCAL_SRC_FILES := android.hardware.power@1.2-service.r5q.rc
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := android.hardware.power@1.3-service.samsung.xml
+LOCAL_MODULE_TAGS  := optional
+LOCAL_MODULE_CLASS := ETC
+
+LOCAL_MODULE_PATH := $(TARGET_OUT_PRODUCT)/vendor_overlay/$(PLATFORM_VNDK_VERSION)/etc/vintf/manifest
+
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
 
 include $(BUILD_PREBUILT)
