@@ -1,4 +1,6 @@
-# Set fastbootd to permissive
 recovery_only(`
-    permissive fastbootd;
+userdebug_or_eng(`
+permissive fastbootd;
+permissive kernel;
+')
 ')

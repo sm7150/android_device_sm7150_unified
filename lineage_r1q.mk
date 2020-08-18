@@ -9,16 +9,16 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Inherit from r5q device
-$(call inherit-product, device/samsung/r5q/device.mk)
+$(call inherit-product, device/samsung/r1q/device.mk)
 
 # Inherit some common Lineage stuff.
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
 # Device identifier. This must come after all inclusions.
-PRODUCT_NAME := lineage_r5q
-PRODUCT_DEVICE := r5q
+PRODUCT_NAME := lineage_r1q
+PRODUCT_DEVICE := r1q
 PRODUCT_BRAND := samsung
-PRODUCT_MODEL := SM-G770F
+PRODUCT_MODEL := SM-A805F
 PRODUCT_MANUFACTURER := samsung
 PRODUCT_GMS_CLIENTID_BASE := android-samsung
 
@@ -35,9 +35,9 @@ TARGET_SCREEN_WIDTH := 1080
 
 # Use the latest approved GMS identifiers
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRODUCT_DEVICE=r5q \
-    TARGET_BOOTLOADER_BOARD_NAME=msmnile \
-    PRODUCT_NAME=r5qnaxx \
-    PRIVATE_BUILD_DESC="r5qnaxx-user 10 QP1A.190711.020 G770FXXU2BTF3 release-keys"
+    PRODUCT_DEVICE=r1q \
+    TARGET_BOOTLOADER_BOARD_NAME=sm6150 \
+    PRODUCT_NAME=r1qnaxx \
+    PRIVATE_BUILD_DESC="r1qxx-user 10 QP1A.190711.020 A805FXXU4BTF7 release-keys"
 
-BUILD_FINGERPRINT := "samsung/r5qnaxx/r5q:10/QP1A.190711.020/G770FXXU2BTF3:user/release-keys"
+BUILD_FINGERPRINT := "samsung/r1qxx/r1q:10/QP1A.190711.020/A805FXXU4BTF7:user/release-keys"
