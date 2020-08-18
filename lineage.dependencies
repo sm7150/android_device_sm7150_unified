@@ -8,7 +8,9 @@
         "target_path": "hardware/samsung"
     },
     {
+        "remote": "github",
         "repository": "android_kernel_sm6150_unified",
-        "target_path": "kernel/samsung/sm6150"
+        "target_path": "kernel/samsung/sm6150",
+        "revision": "btf7-diff"
     }
 ]
