@@ -8,7 +8,7 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit from r5q device
+# Inherit from r1q device
 $(call inherit-product, device/samsung/r1q/device.mk)
 
 # Inherit some common Lineage stuff.
@@ -37,7 +37,7 @@ TARGET_SCREEN_WIDTH := 1080
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_DEVICE=r1q \
     TARGET_BOOTLOADER_BOARD_NAME=sm6150 \
-    PRODUCT_NAME=r1qnaxx \
+    PRODUCT_NAME=r1qxx \
     PRIVATE_BUILD_DESC="r1qxx-user 10 QP1A.190711.020 A805FXXU4BTF7 release-keys"
 
 BUILD_FINGERPRINT := "samsung/r1qxx/r1q:10/QP1A.190711.020/A805FXXU4BTF7:user/release-keys"
