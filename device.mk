@@ -67,13 +67,13 @@ PRODUCT_PACKAGES += \
     NfcNci \
     Tag \
     com.android.nfc_extras
-	
-# Power
-PRODUCT_PACKAGES += \
-    android.hardware.power@1.3-service.r1q
 
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/powerhint.json:$(TARGET_COPY_OUT_PRODUCT)/vendor_overlay/$(PLATFORM_VNDK_VERSION)/etc/powerhint.json
+# Power
+# PRODUCT_PACKAGES += \
+#    android.hardware.power@1.3-service.r1q
+
+# PRODUCT_COPY_FILES += \
+#    $(DEVICE_PATH)/configs/powerhint.json:$(TARGET_COPY_OUT_PRODUCT)/vendor_overlay/$(PLATFORM_VNDK_VERSION)/etc/powerhint.json
 
 # Recovery
 PRODUCT_PACKAGES += \
