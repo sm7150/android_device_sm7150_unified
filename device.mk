@@ -9,7 +9,7 @@ DEVICE_PATH := device/samsung/r1q
 $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
 
 # Call the proprietary setup
-$(call inherit-product, vendor/samsung/r1q/r1q-vendor.mk)
+# $(call inherit-product, vendor/samsung/r1q/r1q-vendor.mk)
 
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
