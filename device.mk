@@ -4,12 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/samsung/r1q
-
-$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
-
-# Call the proprietary setup
-# $(call inherit-product, vendor/samsung/r1q/r1q-vendor.mk)
+DEVICE_PATH := device/samsung/a70q
 
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
@@ -25,7 +20,7 @@ DEVICE_PACKAGE_OVERLAYS += \
 # No A/B
 AB_OTA_UPDATER := false
 
-# Audio 
+# Audio
 PRODUCT_PACKAGES += \
     audio.a2dp.default
 
@@ -38,7 +33,7 @@ PRODUCT_PACKAGES += \
 
 # Fingerprint feature
 PRODUCT_PACKAGES += \
-    lineage.biometrics.fingerprint.inscreen@1.0-service.r1q
+    lineage.biometrics.fingerprint.inscreen@1.0-service.a70q
 
 PRODUCT_COPY_FILES += \
     vendor/lineage/config/permissions/vendor.lineage.biometrics.fingerprint.inscreen.xml:system/etc/permissions/vendor.lineage.biometrics.fingerprint.inscreen.xml
@@ -54,11 +49,11 @@ PRODUCT_PACKAGES += \
 
 # Keylayout
 PRODUCT_COPY_FILES += \
-    device/samsung/r1q/keylayout/gpio-keys.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/gpio-keys.kl
+    device/samsung/a70q/keylayout/gpio-keys.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/gpio-keys.kl
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service.r1q
+    android.hardware.light@2.0-service.a70q
 
 # NFC
 PRODUCT_PACKAGES += \
@@ -86,7 +81,7 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    android.hardware.sensors@1.0-impl.r1q
+    android.hardware.sensors@1.0-impl.a70q
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \

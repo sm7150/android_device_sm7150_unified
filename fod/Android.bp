@@ -16,8 +16,8 @@
 cc_binary {
     relative_install_path: "hw",
     defaults: ["hidl_defaults"],
-    name: "lineage.biometrics.fingerprint.inscreen@1.0-service.r1q",
-    init_rc: ["lineage.biometrics.fingerprint.inscreen@1.0-service.r1q.rc"],
+    name: "lineage.biometrics.fingerprint.inscreen@1.0-service.a70q",
+    init_rc: ["lineage.biometrics.fingerprint.inscreen@1.0-service.a70q.rc"],
     srcs: ["service.cpp", "FingerprintInscreen.cpp"],
     shared_libs: [
         "libbase",
@@ -34,7 +34,7 @@ cc_binary {
 }
 
 cc_library_static {
-    name: "libfod_extension.r1q",
+    name: "libfod_extension.a70q",
     srcs: ["FodExtension.cpp"],
     include_dirs: [
         "frameworks/native/services/surfaceflinger/CompositionEngine/include"
