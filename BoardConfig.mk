@@ -51,7 +51,7 @@ DEVICE_FRAMEWORK_MANIFEST_FILE := $(DEVICE_PATH)/framework_manifest.xml
 
 # Kernel
 TARGET_KERNEL_ARCH := arm64
-TARGET_KERNEL_SOURCE := kernel/samsung/sm6150
+TARGET_KERNEL_SOURCE := kernel/samsung/a70q
 TARGET_KERNEL_CONFIG := a70q_eur_open_defconfig
 TARGET_KERNEL_CLANG_COMPILE := true
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
