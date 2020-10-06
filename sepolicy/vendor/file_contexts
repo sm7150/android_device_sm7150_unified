@@ -63,5 +63,3 @@
 
 # OMR
 /omr(/.*)?    u:object_r:omr_file:s0
-
-/avb(/.*)?	u:object_r:system_file:s0
