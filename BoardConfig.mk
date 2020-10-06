@@ -6,6 +6,7 @@
 
 BOARD_VENDOR := samsung
 DEVICE_PATH := device/samsung/r1q
+BUILD_BROKEN_DUP_RULES := true
 
 # Architecture
 TARGET_ARCH := arm64
